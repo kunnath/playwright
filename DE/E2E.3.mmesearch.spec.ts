@@ -1,0 +1,75 @@
+import { test, expect } from '@playwright/test';
+
+
+test('mme', async ({ page }) => {
+    
+    console.log('3.mmesearch.spec.ts');
+    console.log('Change to de-DE-one settings');
+    await page.goto('https://int.assets.oneweb.mercedes-benz.com/plugin/tradein-app/index.html');
+    await page.getByRole('button').click();
+    await page.getByRole('combobox', { name: 'Configuration' }).selectOption('de-DE-one');
+    await page.getByLabel('JWE Token').click();
+    await page.getByLabel('JWE Token').fill('123456789');
+    await page.getByRole('combobox', { name: 'WKO Type' }).selectOption('User with multiple vehicles and dealer');
+    await page.getByText('Apply settings').click()
+    console.log('1.Ihre Fahrzeugdaten');
+    console.log('Click on Mercedes me');
+    await page.getByText('Mercedes me', { exact: true }).click();
+    await page.locator('label').filter({ hasText: 'C 200 4MATICFIN: WDD2050781R489147' }).locator('div').nth(2).click();
+    console.log('date pickup');
+    await page.locator('#registration wb-icon').first().click();
+    await page.waitForTimeout(2000);
+    await page.getByRole('button', { name: '2020' }).click();
+    await page.getByRole('button', { name: 'Nov' }).click();
+    console.log('enter Kilometerstand');
+    await page.getByLabel('Aktueller Kilometerstand').click();
+    await page.getByLabel('Aktueller Kilometerstand').fill('10000');
+    console.log('click on button');
+    await page.getByRole('button', { name: 'Weiter' }).click();
+    console.log('2.Ihre Kontaktinformation');
+    console.log('enter the contact details');
+    await page.getByLabel('Vorname').click();
+    await page.waitForTimeout(2000);
+    await page.getByLabel('Vorname').fill('mme');
+    await page.getByLabel('Nachname').click();
+    await page.getByLabel('Nachname').fill('qa');
+    await page.getByLabel('E-Mail-Adresse').click();
+    await page.getByLabel('E-Mail-Adresse').fill('trade-in@experienceone.com');
+    console.log('click on next button');
+    await page.getByRole('button', { name: 'Weiter' }).click();
+    console.log('3.Unser Orientierungswert');
+    console.log('click on Jetzt Angebot sichern');
+    await page.getByRole('button', { name: 'Jetzt Angebot sichern' }).click();
+    await page.locator('label').filter({ hasText: 'Autohaus Lorinser GmbH & Co. KGAlte Bundesstraße 45 · 71332 Waiblingen' }).locator('div').nth(2).click();
+    console.log('click on next button');
+    await page.getByRole('button', { name: 'Weiter' }).click();
+    console.log('5.Ihr zukünftiger Mercedes');
+    await page.locator('label').filter({ hasText: 'Ich interessiere mich für einen Mercedes Neuwagen/Vorführwagen' }).locator('div').click();
+    await page.locator('label').filter({ hasText: 'Ich interessiere mich für einen Mercedes Gebrauchtwagen' }).locator('div').click();
+    await page.locator('label').filter({ hasText: 'Ich möchte ohne Wunschmodell fortfahren' }).locator('div').click();
+    await page.getByRole('button', { name: 'Weiter' }).click();
+    console.log('6.Weitere Informationen');
+    console.log('Enter the contact details');
+    await page.getByLabel('Vorname').fill('mme');
+    await page.getByLabel('Nachname').click();
+    await page.getByLabel('Nachname').fill('qa');
+    await page.getByLabel('E-Mail-Adresse').click();
+    await page.getByLabel('E-Mail-Adresse').fill('trade-in@experienceone.com');
+    await page.getByLabel('Ihre Nachricht').click();
+    await page.getByLabel('Ihre Nachricht').fill('qa');
+    await page.locator('wb-radio-control').filter({ hasText: 'Telefon' }).locator('div').click();
+    await page.getByLabel('Telefonnummer').click();
+    await page.getByLabel('Telefonnummer').fill('434545454');
+    await page.getByRole('combobox', { name: 'Bevorzugtes Zeitfenster' }).selectOption('morning');
+    await page.getByLabel('Ihre Nachricht').click();
+    await page.getByLabel('Ihre Nachricht').fill('qatest');
+    console.log('entered the contact for the communicaton');
+    await page.getByRole('button', { name: 'Weiter' }).focus();
+    await page.getByRole('button', { name: 'Weiter' }).click();
+    console.log('7.Wir haben Ihre Anfrage erhalten.');
+    console.log('clicked on next button');
+    await page.waitForTimeout(2000);
+    await page.locator('.ti-dealer-confirmation__inner')
+    .screenshot({path: 'screenshot/modelconfirmationpage.png'});
+    console.log('screenshot of model confirmation page');
+});
