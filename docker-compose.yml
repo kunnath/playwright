@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  jenkins:
+    image: mycustomjenkins:lts-jdk11 
+    user:  root
+    ports:
+      - 8080:8080
+      - 50000:50000
+      - 4200:4200
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins_home:/var/jenkins_home
+      - /etc/passwd:/etc/passwd
+      - /usr/bin/docker:/usr/bin/docker
+      - /Users/sreelesh.kunnath/Desktop/playwright:/opt/data
+      
+    environment:
+      - ITEM_ROOTDIR=/opt/data
+volumes:
+  jenkins_home:

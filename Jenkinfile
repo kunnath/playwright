@@ -1,0 +1,53 @@
+pipeline {
+    agent {
+        docker {
+            image 'mcr.microsoft.com/playwright:v1.17.2-focal'
+            args '-u root' // Set container user to root to avoid permission issues
+
+        }
+    }
+    stages {
+
+     stage('npm  ') {
+        steps {
+        sh '''
+           node --version
+           npm --version
+           npx --version
+           apt-get update 
+           apt-get install -y curl 
+           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash 
+           export NVM_DIR="$HOME/.nvm" 
+           
+        '''
+      }
+        
+    }
+    
+      stage('run system test') {
+        steps {
+            
+        sh '''
+        chmod -R 777 data
+        cd data
+        npx playwright install
+        npx playwright test ./tests/*search.spec.ts  --trace on
+     
+
+        '''
+      }
+
+     
+      post {
+        success {
+          archiveArtifacts(artifacts: 'data/screenshot/*.png, data/playwright-report/', followSymlinks: false)
+          sh 'rm -rf *.png'
+          
+          
+        }
+      } 
+      
+  }
+ 
+  }
+}

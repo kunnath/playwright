@@ -1,0 +1,31 @@
+FROM jenkins/jenkins:lts-jdk11
+
+# if we want to install via apt
+
+USER root
+
+RUN apt-get -qq update \
+   && apt-get -qq -y install curl  npm 
+RUN npm install -g nvm
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+RUN usermod -aG docker jenkins
+RUN apt-get update \
+    && apt-get install -y curl \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash \
+    && export NVM_DIR="$HOME/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" \
+    && npm install -g npm@9.6.3 \ 
+    && nvm install v18.13.0
+    
+
+RUN curl -s https://deb.nodesource.com/setup_16.x | bash - \
+   && apt -y install nodejs
+
+RUN npx playwright install
+RUN npx playwright install-deps 
+
+
+USER jenkins
+
+
