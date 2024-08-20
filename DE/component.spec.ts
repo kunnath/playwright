@@ -8,7 +8,7 @@ import { text } from 'node:stream/consumers';
 test('IhreFahrzeugdaten', async ({ page }) => {
     console.log('1.finsearch.spec.ts');
     console.log('Change to de-DE-one settings');
-    await page.goto('https://int.assets.oneweb.mercedes-benz.com/plugin/tradein-app/index.html');
+    await page.goto('https://assets.oneweb.mercedes-benz.com/plugin/tradein-app/index.html');
     await page.getByRole('button').click();
     await page.getByRole('combobox', { name: 'Configuration' }).selectOption('de-DE-one');
     await page.getByRole('combobox', { name: 'WKO Type' }).selectOption('User with multiple vehicles and dealer');
